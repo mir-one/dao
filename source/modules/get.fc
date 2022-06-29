@@ -1,0 +1,145 @@
+_ get_version() method_id {
+    return (0, 0, 7);
+}
+
+_ get_code_version() method_id {
+    load_base_data();
+    return ctx_code_version;
+}
+
+_ get_members_info() method_id {
+    load_base_data();
+    return (0, ctx_members_total, ctx_members_shares);
+}
+
+_ get_params() method_id {
+    load_base_data();
+    var total_shares = load_total_shares_number(ctx_params);
+    var (base, successTreshold, failureTreshold) = load_voting_params(ctx_params);
+    var metadata = load_metadata(ctx_params);
+    return (0, total_shares, ctx_members_shares, base, successTreshold, failureTreshold, metadata, ctx_params_version);
+}
+
+_ get_params_raw() method_id {
+    load_base_data();
+    return (ctx_params, ctx_params_version);
+}
+
+;;
+;; Proposals
+;;
+
+_ get_last_proposal_id() method_id {
+    load_base_data();
+    return ctx_proposals_seq - 1;
+}
+
+_ get_proposal(int id) method_id {
+    load_base_data();
+    load_proposal(id);
+    
+    return (0, 
+        ctx_proposal_state, 
+        ctx_proposal_voted_yes, 
+        ctx_proposal_voted_no, 
+        ctx_proposal_voted_abstain, 
+        ctx_proposal_body, 
+        ctx_proposal_author,
+        ctx_proposal_created,
+        ctx_proposal_treshold_success,
+        ctx_proposal_treshold_failure,
+        ctx_proposal_metadata
+    );
+}
+
+_ get_proposal_vote(int id, slice addr) method_id {
+
+    ;; Load address
+    (int sender_wc, slice sender_addr) = parse_var_addr(addr);
+    throw_unless(error::invalid_message(), sender_wc == 0);
+    int member = sender_addr~load_uint(256);
+
+    ;; Load data
+    load_base_data();
+    load_proposal(id);
+
+    ;; Load existing vote
+    int existingVote = -1;
+    var (vs, vfound) = ctx_proposal_votes.udict_get?(256, member);
+    if (vfound) {
+        existingVote = vs~load_uint(2);
+    }
+
+    ;; Load voting power
+    int votingPower = load_shares(ctx_proposal_members, member);
+
+    return (
+        0, 
+        existingVote, 
+        votingPower,
+        ctx_proposal_members_shares,
+        ctx_proposal_members_total
+    );
+}
+
+;;
+;; Membership
+;;
+
+_ get_member(slice addr) method_id {
+
+    ;; Load address
+    (int sender_wc, slice sender_addr) = parse_var_addr(addr);
+    throw_unless(error::invalid_message(), sender_wc == 0);
+    int member = sender_addr~load_uint(256);
+
+    ;; Load data
+    load_base_data();
+
+    ;; Load share
+    int shares = load_shares(ctx_members_dict, member);
+    if (shares > 0) {
+        return (1, shares);
+    } else {
+        return (0, 0);
+    }
+}
+
+_ get_members(slice after, int limit) method_id {
+    throw_unless(error::invalid_message(), limit > 0);
+    throw_unless(error::invalid_message(), limit < 100);
+    load_base_data();
+    var member = parse_work_addr(after);
+    var count = 0;
+    var members = null();
+    do {
+        (member, var cs, var f) = ctx_members_dict.udict_get_next?(256, member);
+        if (f) {
+
+            ;; Parse
+            cell rf = cs~load_ref();
+            cs.end_parse();
+            var cs2 = rf.begin_parse();
+            var shares = cs2~load_coins();
+            cs2.end_parse();
+
+            ;; Members
+            members = cons([serialize_work_addr(member), shares], members);
+
+            ;; Increase counter
+            count = count + 1;
+        }
+    } until ((~ f) | (count >= limit));
+    return members;
+}
+
+;;
+;; Contract
+;;
+
+_ supported_interfaces() method_id {
+    return (
+        123515602279859691144772641439386770278, ;; org.ton.introspection.v0
+        235309305202366707147534501513037963513 ;; com.tonwhales.dao.v1
+    );
+}

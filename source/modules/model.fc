@@ -1,0 +1,232 @@
+;;
+;; Register proposal
+;;
+
+() register_proposal(int seq, cell proposal, cell metadata, int member) impure {
+
+    ;; Load shares
+    int shares = load_shares(ctx_members_dict, member);
+    throw_unless(error::no_voting_power(), shares > 0);
+    
+    ;; Check seq
+    throw_unless(error::invalid_message(), seq == ctx_proposals_seq);
+
+    ;; Resolve tresholds
+    var (treshold_base, treshold_success_src, treshold_failure_src) = load_voting_params(ctx_params);
+    var treshold_success = (ctx_members_shares * treshold_success_src) / treshold_base;
+    var treshold_failure = (ctx_members_shares * treshold_failure_src) / treshold_base;
+    
+    ;;
+    ;; Prepare proposal data
+    ;;
+
+    ctx_proposal_id = seq;
+    ctx_proposal_state = state::pending();
+    ctx_proposal_voted_yes = 0;
+    ctx_proposal_voted_no = 0;
+    ctx_proposal_voted_abstain = 0;
+
+    ctx_proposal_author = member;
+    ctx_proposal_created = now();
+    ctx_proposal_treshold_success = treshold_success;
+    ctx_proposal_treshold_failure = treshold_failure;
+    ctx_proposal_metadata = metadata;
+
+    ctx_proposal_votes = null();
+    ctx_proposal_body = proposal;
+
+    ctx_proposal_members = ctx_members_dict;
+    ctx_proposal_members_total = ctx_members_total;
+    ctx_proposal_members_shares = ctx_members_shares;
+    ctx_proposal_params = ctx_params;
+
+    ;;
+    ;; Increment counter
+    ;; 
+    
+    ctx_proposals_seq = seq + 1;
+
+    ;;
+    ;; Persist
+    ;; 
+
+    store_proposal();
+    store_base_data();
+}
+
+;;
+;; Register vote
+;;
+
+() register_vote(int proposalId, int member, int vote) impure {
+
+    ;; Load proposal
+    load_proposal(proposalId);
+
+    ;; Check proposal state
+    throw_unless(error::invalid_message(), ctx_proposal_state == state::pending());
+
+    ;; Check if already voted
+    var (vs, vfound) = ctx_proposal_votes.udict_get?(256, member);
+    throw_if(error::invalid_message(), vfound);
+
+    ;; Check if had shares
+    var shares = load_shares(ctx_proposal_members, member);
+    throw_unless(error::no_voting_power(), shares > 0);
+
+    ;; Register vote
+    if (vote == vote::yes()) {
+        ctx_proposal_voted_yes = ctx_proposal_voted_yes + shares;
+    } elseif (vote == vote::no()) {
+        ctx_proposal_voted_no = ctx_proposal_voted_no + shares;
+    } elseif (vote == vote::abstain()) {
+        ctx_proposal_voted_abstain = ctx_proposal_voted_abstain + shares;
+    } else {
+        throw(error::invalid_message());
+    }
+    var changed = udict_set_builder(ctx_proposal_votes, 256, member, begin_cell().store_uint(vote, 2));
+    ctx_proposal_votes = changed;
+
+    ;; Check if vote succeeded
+    if (ctx_proposal_voted_yes >= ctx_proposal_treshold_success) {
+        ctx_proposal_state = state::success();
+    }
+
+    ;; Check if vote failed
+    if (ctx_proposal_voted_no >= ctx_proposal_treshold_failure) {
+        ctx_proposal_state = state::failure();
+    }
+
+    ;; Check if vote won't be able to succeed: too many votes against or abstent
+    if (ctx_proposal_voted_no + ctx_proposal_voted_abstain > ctx_proposal_members_shares - ctx_proposal_treshold_success) {
+        ctx_proposal_state = state::failure();
+    }
+
+    ;; Persist
+    store_proposal();
+    store_base_data();
+}
+
+;;
+;; Prepare execution
+;;
+
+cell prepare_execute(int proposalId, int member) impure {
+    
+    ;; Load proposal
+    load_proposal(proposalId);
+
+    ;; Check proposal state
+    throw_unless(error::invalid_message(), ctx_proposal_state == state::success());
+
+    ;; Check if can execute
+    throw_unless(error::invalid_message(), ctx_proposal_author == member);
+
+    ;; Update executed state
+    ctx_proposal_state = state::executed();
+
+    ;; Keep reference for proposal body
+    cell res = ctx_proposal_body;
+
+    ;; Persist
+    store_proposal();
+    store_base_data();
+
+    return res;
+}
+
+;;
+;; Abort execution
+;;
+
+() abort_proposal(int proposalId, int member) impure {
+    
+    ;; Load proposal
+    load_proposal(proposalId);
+
+    ;; Check proposal state
+    throw_unless(error::invalid_message(), ctx_proposal_state == state::success());
+
+    ;; Check if can execute
+    throw_unless(error::invalid_message(), ctx_proposal_author == member);
+
+    ;; Update executed state
+    ctx_proposal_state = state::aborted();
+
+    ;; Persist
+    store_proposal();
+    store_base_data();
+}
+
+;;
+;; Cancel proposal
+;;
+
+() cancel_proposal(int proposalId) impure {
+    
+    ;; Load proposal
+    load_proposal(proposalId);
+
+    ;; Check proposal state
+    throw_unless(error::invalid_message(), 
+        (ctx_proposal_state == state::executed()) | (ctx_proposal_state == state::cancelled()) | (ctx_proposal_state == state::aborted())
+    );
+
+    ;; Update executed state
+    ctx_proposal_state = state::cancelled();
+
+    ;; Persist
+    store_proposal();
+    store_base_data();
+}
+
+;;
+;; Allocate voting power
+;;
+
+() allocate_voting_power(int member, int shares) impure {
+
+    ;; Check input
+    throw_unless(error::internal_error(), shares > 0);
+
+    ;; Check if shares available
+    var totalShares = load_total_shares_number(ctx_params);
+    var allocatedShares = ctx_members_total;
+    throw_unless(error::internal_error(), totalShares >= allocatedShares + shares);
+
+    ;; Update membership
+    int existingShares = load_shares(ctx_members_dict, member);
+    if (existingShares == 0) {
+        ctx_members_total = ctx_members_total + 1;
+    }
+    ctx_members_shares = ctx_members_shares + shares;
+    ctx_members_dict = store_shares(ctx_members_dict, member, existingShares + shares);
+
+    ;; Persist
+    store_base_data();
+}
+
+;;
+;; Deallocate voting power
+;;
+
+() deallocate_voting_power(int member, int shares) impure {
+
+    ;; Check input
+    throw_unless(error::internal_error(), shares > 0);
+
+    ;; Load existing
+    int existingShares = load_shares(ctx_members_dict, member);
+    throw_unless(error::internal_error(), existingShares >= shares);
+
+    ;; Update membership
+    if (existingShares == shares) {
+        throw_unless(error::internal_error(), ctx_members_total > 0);
+        ctx_members_total = ctx_members_total - 1;
+    }
+    ctx_members_shares = ctx_members_shares - shares;
+    ctx_members_dict = store_shares(ctx_members_dict, member, existingShares - shares);
+
+    ;; Persist
+    store_base_data();
+}

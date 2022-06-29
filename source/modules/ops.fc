@@ -1,0 +1,65 @@
+() op_proposal(int member, int value, slice in_msg, int query_id) impure {
+
+    ;; Params
+    int proposalCost = load_proposal_cost(ctx_params);
+
+    ;; Check input
+    int seq = in_msg~load_uint(32);
+    cell proposal = in_msg~load_ref();
+    cell metadata = in_msg~load_ref();
+    in_msg.end_parse();
+    throw_unless(error::invalid_message(), check_proposal(proposal));
+    throw_unless(error::invalid_message(), proposalCost <= value);
+
+    ;; Register input
+    register_proposal(seq, proposal, metadata, member);
+
+    ;; Receipt
+    var [balance, extra] = get_balance();
+    raw_reserve(balance - value + proposalCost, 0 + 2); ;; Reserve existing balance + proposal cost
+    send_empty_receipt_message_remaining(member, op::proposal::ok(), query_id);
+}
+
+() op_vote(int member, int value, slice in_msg, int query_id) impure {
+    
+    ;; Check input
+    int proposalId = in_msg~load_uint(32);
+    int vote = in_msg~load_uint(2);
+    in_msg.end_parse();
+
+    ;; Register vote
+    register_vote(proposalId, member, vote);
+    send_empty_receipt_message(member, op::vote::ok(), query_id);
+}
+
+() op_execute(int member, int value, slice in_msg, int query_id) impure {
+
+    ;; Load proposal ID
+    int proposalId = in_msg~load_uint(32);
+    
+    ;; End and validate
+    in_msg.end_parse();
+
+    ;; Prepare
+    var proposal = prepare_execute(proposalId, member);
+    send_empty_receipt_message(member, op::execute::ok(), query_id);
+
+    ;; Commit (to ignore errors during execution)
+    commit();
+
+    ;; Execute
+    execute_proposal(proposal);
+}
+
+() op_abort(int member, int value, slice in_msg, int query_id) impure {
+
+    ;; Load proposal ID
+    int proposalId = in_msg~load_uint(32);
+    
+    ;; End and validate
+    in_msg.end_parse();
+
+    ;; Cancel proposal
+    abort_proposal(proposalId, member);
+    send_empty_receipt_message(member, op::abort::ok(), query_id);
+}

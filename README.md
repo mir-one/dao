@@ -1,6 +1,9 @@
 # NFT TON DAO
 NFT TON DAO is a collection of unique DAO on The Open Network. Each NFT for the participant, which confirms the information about  the DAO membership. Each time you participate in an DAO, TON DAO send a unique NFT, which is verified by a cryptographic record. These NFT are Non-Fungible Tokens and contain all information about the DAO.
 
+
+[Manifesto](/Manifesto.md) DAO
+
 ## Usage
 ```
 title                    // Title to display

@@ -57,41 +57,6 @@ Additionally, a third parameter is introduced, which can be described as "merit"
 
 [Manifesto](/Manifesto.md) DAO
 
-## Usage
-```
-|Trait Type | Value|
-|-|-|
-|title                    // Title to display
-|image                    // 
-|description              // 
-|native_name              // 
-|native_name_lang         // 
-|english_name             // 
-|time                     // 
-|timezone                 // 
-|duration                 // duration|h=x|m=x|s=x or time interval|date1|date2|options
-|date                     // start date|YYY/|MM/DD or start and end dates|YYYY/MM/DD-YYYY/MM/DD
-|venue                    // 
-|location                 // 
-|coordinates              // coord|LAT|LON|region:XXXX_type:event|display=inline,title
-|type                     // 
-|theme                    // 
-|cause                    // 
-|motive                   // 
-|target                   // 
-|patron                   // or patrons
-|organisers               // or organizers
-|participants             // 
-|outcome                  // 
-|awards                   // 
-|url                      // 
-|blank_label              // or |blank_data
-blank1_label             // or |blank1_data
-blank2_label             // or |blank2_data
-|website                  // URL|example.com
-|notes                    // 
-```
-
 # TON CON DAO
 ```
 title                    // Title to display

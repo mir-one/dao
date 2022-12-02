@@ -12,6 +12,7 @@ We agree that the Metaverse is only a part of the common reality of people, but 
 The purpose of the DAO is to organize and conduct educational and creative events in the digital environment and in physical reality.
 
 ## Principles of participation in DAO
+
 1. Creation. It is the nature of people to create. We can do it unconsciously or consciously. The latter allows us to choose the future in which we want to live. Any creative unit of the Metaverse is equal to Sovereign.
 2. Awareness. Life, work, people - everything in order to learn more about yourself. Who am I as a member? Who am I as a co-author? Who am I in this life and at this moment? Who am I like life?
 3. Improvement. Places, yourself, things. The world strives for natural efficiency. We strive for the same, to be in harmony with the world.
@@ -36,6 +37,15 @@ Tokenomics and participation of people can look like a conditional - the interse
 | NFT 2 rounds Issued through reputation score | Intimate circle (partners / colleagues: artists, sculptors, musicians, etc.) | 1. NFT DAO TON CON 2. Up to 50% discount on all DAO TON CON events (subscription) 3. The opportunity to participate in the management of the DAO and the organization of events together with the organizers. |
 | NFT 1 round Gained through experience and reputation | The inner circle (organizers, curators of directions, etc.) | 1. Jetton CON And/or Fractal (part) of the NFT of the room wrapped in it. 2. Up to 100% discount on all DAO TON CON events (subscription) 3. Opportunity to participate in DAO management and event organization |
 
+Each circle of participants also forms horizontal interactions. So there may be several circles interacting with each other on the inner circle, for example:
+* circle of exhibition curators;
+* the circle of organizers of educational events;
+* circle of marketers;
+* circle of lawyers;
+* circle of creators;
+* circle of coders;
+* other circles.
+
 #### Horizontal circles of DAO members
 | Types of NFT DAO TON CON | Holders | Possible circles of participants |
 | - | - | - |
@@ -43,6 +53,41 @@ Tokenomics and participation of people can look like a conditional - the interse
 | NFT 3 rounds | Outer circle (investors, traders, spectators, others) | Investors, Traders, HODLers |
 | NFT 2 rounds | Close circle (partners, colleagues: creators) | Partners, Painters, Producers, Journalists, copywriters, Critics, etc. |
 | NFT 1 round | The inner circle (organizers, curators of directions, etc.) | Organizers, Exhibition curators, Curators of other directions |
+
+### The order of admission of participants to the 3rd DAO circle
+
+All NFT holders are 3 circles.
+
+### The order of admission of participants to the 2nd DAO circle
+
+1. A general call of the candidate with the participants of the 2nd circle: acquaintance, discussion of possible options for cooperation, project implementation.
+2. Voting of the participants of the 2nd circle on the possible implementation of the “project” with the candidate - at least 10% who voted ”for".
+3. The stage of joint implementation of the “project". Possible projects to be implemented (the list is open):
+- meetup organizations: number of participants from 25 people
+- NFT collection issue: from 10 nft (digital artists)
+- organization of the exhibition (meta and/or offline): from 10 works
+- preparation of documents (from 3)
+- analytics (from 2 reports)
+4. General call of the candidate with the participants of the 2nd circle: discussion of the results of the implemented project; discussion of its development or planning of the next ones.
+5. Voting of the participants of the 2nd circle on the candidate's entry into the 2nd circle of the DAO - at least 25% who voted ”for".
+6. Acquisition of NFT 2 circles
+7. Welcome!
+
+The participant can also be accepted on the recommendation of any participant of the 2nd circle according to a simplified procedure, by:
+1. Making a proposal for the entry of a person from a participant of the 2nd circle.
+2. A guarantee from at least 2 participants of the 2nd round for this candidate.
+3. The general vote of the participants of the 2nd circle on the candidate's entry into the 2nd circle of the DAO is at least 25% who voted ”for".
+
+
+### The order of admission of participants to the 1st DAO circle
+
+It is carried out on the basis of the personal and professional reputation / competence of the participant after the vote of all participants of the 2nd round.
+The general vote of the participants of the 2nd circle on the candidate's entry into the 2nd circle of the DAO is at least 75% who voted ”for".
+
+## How to make changes to the Manifest
+Changes to the Manifesto can be made at the initiative of a DAO participant by putting a new version of the Manifesto (individual provisions) up for a vote.
+The change can be accepted no more than 3 times a year.
+The change is adopted at the general vote of the participants of the 1st and 2nd circles. If accepted by a qualified majority of the participants, i.e. at least 75% of those who voted “for”.
 
 ## Opportunities for NFTs holders
 * Participation in DAO events;

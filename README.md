@@ -6,10 +6,12 @@ TON CON is a events DAOs on The Open Network. Each NFT for the participant, whic
 
 The proposed TON CON model provides for the presence of 4 types of jetton and an NFT management jetton:
 1. TON CON is a jetton of economic project management. Jetton can be obtained in several ways:
+    
     a. Financing of the DAO, purchase through an AMM contract, purchase of NFT.
     b. Active participation in the work of the DAO as a developer.
 
 2. Donation - a basic liquid token to encourage developers. Donation can be obtained in several ways:
+    
     a. Buy
     b. Receive as a reward for the work
 done 
@@ -23,6 +25,12 @@ done
 4. Art - jetton, in the gallery space, to encourage the creative potential of participants.
 
 The presence of 4 different jetton in the DAO economy will allow the introduction of various mechanisms to stimulate and encourage active users of the DAO. Various combinations of a combination of jetton in a certain amount can be developed, which will allow their holder to extract additional benefits. The mechanics of jetton circulation and additional incentives should be worked out collectively. We are at the beginning of our R&D for the decentralization of decision-making in the development of the DAO.
+
+Address:
+
+* [CON Jetton](https://tonapi.io/account/EQB9Op5MAUoymk6Y_4x5IX3qdGHhUhSmMmsVoEA-jzOYI7g-)
+* [TON Svet jetton](https://tonapi.io/account/EQAgkc5YfAA1Hc75QXcZJrL15l3LXoQr0CaK4sqcpHRFXFxh)
+* [Donation](https://tonapi.io/account/EQDEcJlTPBymzUqOJ15QR44vIlPIHhsWllrIafWpPdeHiuNR)
 
 ## Roles in TON CON DAO
 

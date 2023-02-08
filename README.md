@@ -97,20 +97,18 @@ blank2_label             // or |blank2_data
 website                  // URL|example.com
 notes                    // 
 ```
-## Параметры
-Шаблоны параметров
+## Parameters
+Parameter Templates
 
-|Параметр|Обязятелен |Описание | Тип |Пример |
+|Parameter|Required |Description | Type |Example |
 |-|-|-|-|-|
-|Название|да|Название DAO|Текст|DAO NFT|
-|Изображение|нет|Эмблема, логотип или иконка DAO|jpg,png,svg|
-|Тип|да|Для DAO: NFT DAO|текст|NFT DAO|
-|Консенсус|нет||||
-|Текущее предложение|нет|Название предложения|текст||
-||||||
-|Количество членов|нет|Общее количество членов DAO. Для двух групп кругов указывается в виде N1 + N2, где N1, N2 — численность членов первого и второго круга.|||
-||||||
-||||||
+|Name|yes|Name of the DAO|Text|DAO NFT|
+|Image|None|Logo, logo or DAO icon|jpg,png,svg|
+|Type|yes|For DAO: NFT DAO|text|NFT DAO|
+|Consensus|no||||
+|Current offer|No|Offer title|text||
+||||| |
+/ Number of members|none / Total number of DAO members. For two groups of circles, it is indicated in the form N1 + N2, where N1, N2 are the number of members of the first and second circles.|||
 ||||||
 ||||||
 ||||||
@@ -125,68 +123,70 @@ notes                    //
 ||||||
 ||||||
 ||||||
-|Адрес|нет|Адрес аккаунта DAO||EQBondcvD2_aOFADXSWJHs4ZazQDuEl9_wNvGGPxI8hGuOFU|
+||||||
+||||||
+/ Address|none / DAO Account address / / EQBondcvD2_aOFADXSWJHs4ZazQDuEl9_wnvggpxi8hguofu|
 
 ## Example
 
 ```json
 {
-    "name": "Build DAO Interdisciplinary Thinking",
-    "description": "Interdisciplinary Thinking DAO",
-    "image": "ipfs://CID/1.png",
-    "animation_url": "ipfs://CID/video.mp4",
-    "attributes": [
-        {
-            "trait_type": "Дата",
-            "value": "2022/06/28"
-        },
-        {
-            "trait_type": "Время",
-            "value": "16:00"
-        },
-        {
-            "trait_type": "Место",
-            "value": "Коворкинг-центр НКО в ЦАО"
-        },
-        {
-            "trait_type": "DAO",
-            "value": "Междисциплинарное мышление"
-        },
-        {
-            "trait_type": "Делегирование предложений",
-            "value": "Да"
-        },
-        {
-            "trait_type": "Отпечаток",
-            "value": "Да"
-        },
-        {
-            "trait_type": "Конcенсус",
-            "value": "100%"
-        },
-        {
-            "trait_type": "Участники",
-            "value": "9"
-        },
-        {
-            "trait_type": "Экспертная сеть",
-            "value": "Да"
-        },
-        {
-            "trait_type": "Цель",
-            "value": "Сборка DAO Луна"
-        },
-        {
-            "trait_type": "Адрес",
-            "value": "Москва, ул. Коровий Вал, 3, стр. 5"
-        },
-        {
-            "trait_type": "Тип",
-            "value": "Презентация"
-        },
-        {
-            "trait_type": "Тема",
-            "value": "Проект Луна"
+"name": "Build DAO Interdisciplinary Thinking",
+"description": "Interdisciplinary Thinking DAO",
+"image": "ipfs://CID/1.png",
+"animation_url": "ipfs://CID/video.mp4",
+"attributes": [
+{
+"trait_type": "Date",
+"value": "2022/06/28"
+},
+{
+"trait_type": "Time",
+"value": "16:00"
+},
+{
+"trait_type": "Location",
+"value": "NGO Coworking center in CAO"
+},
+{
+"trait_type": "DAO",
+"value": "Interdisciplinary thinking"
+},
+{
+"trait_type": "Delegation of proposals",
+"value": "True"
+},
+{
+"trait_type": "Fingerprint",
+"value": "True"
+},
+{
+"trait_type": "Consensus",
+"value": "100%"
+},
+{
+"trait_type": "Participants",
+"value": "9"
+},
+{
+"trait_type": "Expert network",
+"value": "Yes"
+},
+{
+"trait_type": "Target",
+"value": "Build DAO Moon"
+},
+{
+"trait_type": "Address",
+"value": "Moscow, Koroviy Val str., 3, p. 5"
+},
+{
+"trait_type": "Type",
+"value": "Presentation"
+},
+{
+            "trait_type": "Theme",
+            "value": "Project Moon"
         },
         {
             "trait_type": "DAO Chat",
